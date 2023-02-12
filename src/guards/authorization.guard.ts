@@ -15,8 +15,6 @@ export function IsAuthorized(permission: string) {
 export class AuthorizationGuard implements CanActivate {
   constructor(private readonly permission: string) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    console.log('what');
-
     const currentUser =
       context.switchToHttp().getRequest().currentUser || false;
     if (!currentUser) {

@@ -1,6 +1,13 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { hash } from 'bcryptjs';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { compare, hash } from 'bcryptjs';
 import { randomBytes } from 'crypto';
+import { sign } from 'jsonwebtoken';
+import { jwtExpiration, jwtSecret } from 'src/config';
+import { LoginDto } from '../dtos/req/login.dto';
 import { RegisterDto } from '../dtos/req/register.dto';
 import { User } from '../entities/users.entity';
 import { UsersService } from './users.service';
@@ -32,5 +39,32 @@ export class AuthService {
     };
 
     return this.usersSrv.create(user);
+  }
+
+  async login(loginDto: LoginDto) {
+    const user = (await this.usersSrv.findOne(loginDto.email)) || false;
+    if (!user) {
+      throw new NotFoundException(
+        'No user assoiciated with that email was found.',
+      );
+    }
+
+    const pwCheck = (await compare(loginDto.password, user.password)) || false;
+    if (!pwCheck) {
+      throw new BadRequestException('The Provided password is incorrect.');
+    }
+    delete user.password;
+
+    if (user.confirmed) {
+      throw new BadRequestException('You can only login as a confirmed user.');
+    }
+
+    const token = sign({ id: user.id }, jwtSecret, {
+      expiresIn: jwtExpiration,
+    });
+
+    // eslint-disable-next-line
+    //@ts-ignore
+    return { ...user._doc, token };
   }
 }

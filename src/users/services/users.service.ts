@@ -29,6 +29,12 @@ export class UsersService {
   }
 
   create(user: User) {
+    if (user.isCompany) {
+      delete user?.fname;
+      delete user?.lname;
+    } else {
+      delete user?.companyName;
+    }
     return this.userModel.create(user);
   }
 }
