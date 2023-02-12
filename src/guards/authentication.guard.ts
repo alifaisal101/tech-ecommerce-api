@@ -1,6 +1,15 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UseGuards,
+} from '@nestjs/common';
 import { verify } from 'jsonwebtoken';
 import { UsersService } from 'src/users/services/users.service';
+
+export function IsAuthenticated() {
+  return UseGuards(AuthenticationGuard);
+}
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
