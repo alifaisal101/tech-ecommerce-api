@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { verify } from 'jsonwebtoken';
+import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
@@ -15,7 +16,7 @@ export class AuthenticationGuard implements CanActivate {
 
     try {
       const result = verify(token, 'secret') as any;
-      const user = (await this.userSrv.findOne(result.id)) || false;
+      const user = (await this.usersSrv.findById(result.id)) || false;
       if (!user) {
         return false;
       }

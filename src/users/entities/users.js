@@ -36,12 +36,15 @@ const userSchema = new mongoose.Schema({
     required: false,
     unique: true,
   },
-  privileges: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
+  privileges: {
+    required: false,
+    type: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);
