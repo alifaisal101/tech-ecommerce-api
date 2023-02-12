@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { IsAuthenticated } from 'src/guards/authentication.guard';
 import { IsAuthorized } from 'src/guards/authorization.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { ExcludePassword } from '../dtos/res/exclude-password.dto';
+import { ExcludePasswordDto } from '../dtos/res/exclude-password.dto';
 import { UsersService } from '../services/users.service';
 
 // Typescript decorator order follows: https://www.typescriptlang.org/docs/handbook/decorators.html#decorator-composition
@@ -12,7 +12,7 @@ import { UsersService } from '../services/users.service';
 
 @IsAuthorized('admin') // 2st
 @IsAuthenticated() // 1st
-@Serialize(ExcludePassword)
+@Serialize(ExcludePasswordDto)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersSrv: UsersService) {}
