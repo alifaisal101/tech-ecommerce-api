@@ -27,4 +27,8 @@ export class UsersService {
       .skip(skip)
       .limit(users_per_page);
   }
+
+  create(user: User) {
+    return this.userModel.create(user);
+  }
 }

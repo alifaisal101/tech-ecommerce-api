@@ -16,25 +16,28 @@ export class User {
   isCompany: boolean;
 
   @Prop(unRequiredString)
-  fname: string;
+  fname?: string;
 
   @Prop(unRequiredString)
-  lname: string;
+  lname?: string;
 
   @Prop(unRequiredString)
-  companyName: string;
+  companyName?: string;
 
   @Prop(uniqueRequiredString)
   email: string;
+
+  @Prop(requiredString)
+  password: string;
 
   @Prop(requiredBoolean)
   confirmed: boolean;
 
   @Prop(requiredString)
-  confrimHash: string;
+  confirmHash: string;
 
   @Prop(unRequiredArrayOfStrings)
-  privileges: string[];
+  privileges?: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
