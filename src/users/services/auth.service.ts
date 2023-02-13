@@ -7,6 +7,7 @@ import { compare, hash } from 'bcryptjs';
 import { randomBytes } from 'crypto';
 import { sign } from 'jsonwebtoken';
 import { jwtExpiration, jwtSecret } from 'src/config';
+import { MailService } from 'src/mail/services/mail.service';
 import { LoginDto } from '../dtos/req/login.dto';
 import { RegisterDto } from '../dtos/req/register.dto';
 import { User } from '../entities/users.entity';
@@ -14,7 +15,10 @@ import { UsersService } from './users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersSrv: UsersService) {}
+  constructor(
+    private readonly usersSrv: UsersService,
+    private readonly mailSrv: MailService,
+  ) {}
 
   async register(userDto: RegisterDto) {
     const emailExists = (await this.usersSrv.findOne(userDto.email)) || false;
@@ -38,6 +42,7 @@ export class AuthService {
       confirmHash: randomBytes(20).toString('hex'),
     };
 
+    await this.mailSrv.confirmation(user.email, user.confirmHash);
     return this.usersSrv.create(user);
   }
 
@@ -55,7 +60,7 @@ export class AuthService {
     }
     delete user.password;
 
-    if (user.confirmed) {
+    if (!user.confirmed) {
       throw new BadRequestException('You can only login as a confirmed user.');
     }
 
