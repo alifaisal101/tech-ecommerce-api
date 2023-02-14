@@ -11,7 +11,7 @@ export const jwtSecret = process.env.jwtSecret || 'secret';
 
 // Mail
 export const senderEmail = process.env.senderEmail || 'test@example.com';
-
+export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 // Config
 // pages
 export { users_per_page } from '../config/pages.json';

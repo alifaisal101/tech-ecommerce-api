@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { compare, hash } from 'bcryptjs';
@@ -41,9 +42,12 @@ export class AuthService {
       confirmed: false,
       confirmHash: randomBytes(20).toString('hex'),
     };
-
-    await this.mailSrv.confirmation(user.email, user.confirmHash);
-    return this.usersSrv.create(user);
+    try {
+      await this.mailSrv.confirmation(user.email, user.confirmHash);
+      return this.usersSrv.create(user);
+    } catch (err) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async login(loginDto: LoginDto) {
