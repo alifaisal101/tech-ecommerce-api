@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 
 export class UserDto {
   @Expose()
@@ -24,5 +24,5 @@ export class UserDto {
   privileges: string[];
 
   @Expose()
-  _id: ObjectId;
+  _id: Types.ObjectId;
 }
