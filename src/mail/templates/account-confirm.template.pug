@@ -6,4 +6,8 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
     body 
-        h4 To confirm your account, Click the link a(href="#{confirmLink}") 
+        h4 To confirm your account, Click here: 
+        form(action="#{confirmLink}" method="post")
+            input(type="hidden" name="userId" value="#{userId}")
+            input(type="hidden" name="confirmHash" value="#{confirmHash}")
+            button(type="submit") Confirm

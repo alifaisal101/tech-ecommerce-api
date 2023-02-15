@@ -44,8 +44,13 @@ export class AuthService {
       confirmHash: randomBytes(20).toString('hex'),
     };
     try {
-      await this.mailSrv.confirmation(user.email, user.confirmHash);
-      return this.usersSrv.create(user);
+      const result = await this.usersSrv.create(user);
+      await this.mailSrv.confirmation(
+        result.email,
+        result._id,
+        result.confirmHash,
+      );
+      return result;
     } catch (err) {
       throw new InternalServerErrorException();
     }
