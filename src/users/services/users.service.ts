@@ -28,6 +28,10 @@ export class UsersService {
       .limit(users_per_page);
   }
 
+  updateById(id: ObjectId, newUser: Partial<User>) {
+    return this.userModel.findByIdAndUpdate(id, newUser);
+  }
+
   create(user: User) {
     if (user.isCompany) {
       delete user?.fname;

@@ -33,7 +33,7 @@ export class User {
   @Prop(requiredBoolean)
   confirmed: boolean;
 
-  @Prop(requiredString)
+  @Prop(unRequiredString)
   confirmHash: string;
 
   @Prop(unRequiredArrayOfStrings)

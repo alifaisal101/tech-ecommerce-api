@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { ConfirmDto } from '../dtos/req/confirm.dto';
 import { LoginDto } from '../dtos/req/login.dto';
 import { RegisterDto } from '../dtos/req/register.dto';
 import { ExcludePasswordDto } from '../dtos/res/exclude-password.dto';
@@ -16,6 +17,11 @@ export class AuthController {
   @Post('/register')
   async register(@Body() body: RegisterDto) {
     return await this.authSrv.register(body);
+  }
+
+  @Post('/confirm')
+  async confirm(@Body() body: ConfirmDto) {
+    return await this.authSrv.confirm(body);
   }
 
   @Serialize(LoggedInDto, { excludeExtraneousValues: true })
