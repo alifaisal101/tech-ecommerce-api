@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { users_per_page } from 'src/config';
 import { filterObj } from 'src/util/helpers/objects.helper';
 import { User, UserDocument } from '../entities/users.entity';
@@ -9,7 +9,7 @@ import { User, UserDocument } from '../entities/users.entity';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  findById(id: ObjectId) {
+  findById(id: Types.ObjectId) {
     return this.userModel.findById(id, { password: 0 });
   }
 
@@ -28,7 +28,7 @@ export class UsersService {
       .limit(users_per_page);
   }
 
-  updateById(id: ObjectId, newUser: Partial<User>) {
+  updateById(id: Types.ObjectId, newUser: Partial<User>) {
     return this.userModel.findByIdAndUpdate(id, newUser);
   }
 
