@@ -44,11 +44,11 @@ export const userPrompt = async () => {
 export const passwordPrompt = async () => {
   const password = question('Enter Admin Password: ', {
     hideEchoBack: true,
-    mask: '*',
+    mask: '',
   });
   const cpassword = question('ReEnter Password: ', {
     hideEchoBack: true,
-    mask: '*',
+    mask: '',
   });
 
   if (password !== cpassword) {

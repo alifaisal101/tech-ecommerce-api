@@ -1,4 +1,4 @@
-import { connect } from 'mongoose';
+import { MongoClient } from 'mongodb';
 import { passwordPrompt, userPrompt } from './prompt';
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -8,13 +8,37 @@ if (!MONGODB_URI) {
 }
 
 const initalizer = async () => {
-  const user = await userPrompt();
-  const hashedPw = await passwordPrompt();
-
-  // console.log(adminUser, hashedPw);
   try {
-    // const mongooseConnection = await connect(MONGODB_URI);
-    // console.log(new mongooseConnection.Query());
+    const client = new MongoClient(MONGODB_URI);
+    client.connect();
+    console.log('Connected successfully to db server...');
+
+    const usersCollection = client.db().collection('users');
+    const adminUserExists =
+      (await usersCollection.findOne({ privileges: { $in: ['admin'] } })) ||
+      false;
+
+    if (adminUserExists) {
+      console.warn(
+        'Admin User Already exists. Project was already initialized.',
+        'exting...',
+      );
+      return process.exit(0);
+    }
+
+    const user = await userPrompt();
+    const password = await passwordPrompt();
+
+    await usersCollection.insertOne({
+      ...user,
+      isCompany: false,
+      password,
+      confirmed: true,
+      privileges: ['admin'],
+    });
+
+    console.log('Admin User was created successfully.', 'exting...');
+    return process.exit(0);
   } catch (err) {
     throw err;
   }
