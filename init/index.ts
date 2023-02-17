@@ -1,4 +1,5 @@
 import { connect } from 'mongoose';
+import { prompt } from './prompt';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -7,13 +8,14 @@ if (!MONGODB_URI) {
 }
 
 const initalizer = async () => {
+  const promptRes = await prompt();
+  console.log(promptRes);
   try {
-    const mongooseConnection = await connect(MONGODB_URI);
-    console.log(new mongooseConnection.Query());
+    // const mongooseConnection = await connect(MONGODB_URI);
+    // console.log(new mongooseConnection.Query());
   } catch (err) {
     throw err;
   }
-  console.log('test', 'asdsa');
 };
 
 initalizer();
