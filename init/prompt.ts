@@ -1,11 +1,13 @@
+import { hash } from 'bcryptjs';
 import { isAlpha, isEmail, isNotEmpty, isString } from 'class-validator';
 import * as prompts from 'prompts';
+import { question } from 'readline-sync';
 
 const err = (msg: string): never => {
   throw new Error(msg);
 };
 
-export const prompt = async () => {
+export const userPrompt = async () => {
   return prompts([
     {
       type: 'text',
@@ -36,14 +38,22 @@ export const prompt = async () => {
       validate: (email) =>
         isEmail(email) && isNotEmpty(email) ? true : err(`Email is invalid`),
     },
-    {
-      type: 'invisible',
-      name: 'password',
-      message: 'Admin account password:',
-      // validate: (password) =>
-      //   isString(password) && isNotEmpty(password)
-      //     ? true
-      //     : err(`Password can't be empty`),
-    },
   ]);
+};
+
+export const passwordPrompt = async () => {
+  const password = question('Enter Admin Password: ', {
+    hideEchoBack: true,
+    mask: '*',
+  });
+  const cpassword = question('ReEnter Password: ', {
+    hideEchoBack: true,
+    mask: '*',
+  });
+
+  if (password !== cpassword) {
+    err("Passwords don't match.");
+  }
+
+  return hash(password, 12);
 };

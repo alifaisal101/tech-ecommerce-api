@@ -1,5 +1,5 @@
 import { connect } from 'mongoose';
-import { prompt } from './prompt';
+import { passwordPrompt, userPrompt } from './prompt';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -8,8 +8,10 @@ if (!MONGODB_URI) {
 }
 
 const initalizer = async () => {
-  const promptRes = await prompt();
-  console.log(promptRes);
+  const user = await userPrompt();
+  const hashedPw = await passwordPrompt();
+
+  // console.log(adminUser, hashedPw);
   try {
     // const mongooseConnection = await connect(MONGODB_URI);
     // console.log(new mongooseConnection.Query());
