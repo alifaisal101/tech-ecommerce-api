@@ -42,3 +42,8 @@ export interface Cooler {
   name?: string;
   type?: string;
 }
+
+export interface Battary {
+  size: number;
+  time: number;
+}
