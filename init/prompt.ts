@@ -1,5 +1,5 @@
 import { hash } from 'bcryptjs';
-import { isAlpha, isEmail, isNotEmpty, isString } from 'class-validator';
+import { isAlpha, isEmail, isNotEmpty } from 'class-validator';
 import * as prompts from 'prompts';
 import { question } from 'readline-sync';
 
