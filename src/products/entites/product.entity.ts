@@ -1,18 +1,22 @@
-import { Prop, Schema } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { Location } from '../../declarations/products';
 import {
   requiredArrayOfString,
   requiredBoolean,
   requiredNumber,
   requiredString,
   unRequiredNumber,
-} from 'src/util/options/mongoose-options';
-import { locationProps, sellerId } from './mongoose-options';
+} from '../../util/options/mongoose-options';
+import {
+  computerId,
+  displayId,
+  driveId,
+  locationProps,
+  sellerId,
+} from './options/product.options';
 
-interface Location {
-  state: string;
-  moreInfo?: string;
-}
+export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
 export class Product {
@@ -46,4 +50,15 @@ export class Product {
 
   @Prop(locationProps)
   location: Location;
+
+  @Prop(computerId)
+  computerId: Types.ObjectId;
+
+  @Prop(driveId)
+  driveId: Types.ObjectId;
+
+  @Prop(displayId)
+  displayId: Types.ObjectId;
 }
+
+export const ProductSchema = SchemaFactory.createForClass(Product);
