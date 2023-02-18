@@ -23,3 +23,22 @@ export interface Gpu {
   model: string;
   vram: number;
 }
+
+export interface PowerSupply {
+  name?: string;
+  maker?: string;
+  modularity?: string;
+  wattage: number;
+}
+
+export interface CompCase {
+  tower?: string;
+  maker?: string;
+  model?: string;
+}
+
+export interface Cooler {
+  maker?: string;
+  name?: string;
+  type?: string;
+}
