@@ -16,13 +16,13 @@ export type ComputerDocument = HydratedDocument<Computer>;
 @Schema()
 export class Computer {
   @Prop(desktopId)
-  desktopId: Types.ObjectId;
+  desktopId?: Types.ObjectId;
 
   @Prop(laptopId)
-  laptopId: Types.ObjectId;
+  laptopId?: Types.ObjectId;
 
   @Prop(allInOneId)
-  allInOneId: Types.ObjectId;
+  allInOneId?: Types.ObjectId;
 
   @Prop(ram)
   ram: Ram;

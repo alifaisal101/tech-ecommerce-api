@@ -52,6 +52,7 @@ export class AuthService {
       );
       return result;
     } catch (err) {
+      console.log(err);
       throw new InternalServerErrorException();
     }
   }
@@ -72,7 +73,10 @@ export class AuthService {
 
     user.confirmHash = undefined;
     user.confirmed = true;
-    return user.save();
+    const result = await user.save();
+    // eslint-disable-next-line
+    //@ts-ignore
+    return { ...result._doc };
   }
 
   async login(loginDto: LoginDto) {

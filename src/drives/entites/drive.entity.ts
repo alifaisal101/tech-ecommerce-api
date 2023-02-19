@@ -21,10 +21,10 @@ export class Drive {
   type: string;
 
   @Prop(unRequiredNumber)
-  rpm: number;
+  rpm?: number;
 
   @Prop(unRequiredBoolean)
-  nvme: boolean;
+  nvme?: boolean;
 }
 
 export const DriveSchema = SchemaFactory.createForClass(Drive);

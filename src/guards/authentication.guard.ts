@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { verify } from 'jsonwebtoken';
 import { UsersService } from 'src/users/services/users.service';
+import { jwtSecret } from './../config';
 
 export function IsAuthenticated() {
   return UseGuards(AuthenticationGuard);
@@ -22,9 +23,8 @@ export class AuthenticationGuard implements CanActivate {
     if (!token) {
       return false;
     }
-
     try {
-      const result = verify(token, 'secret') as any;
+      const result = verify(token, jwtSecret) as any;
       const user = (await this.usersSrv.findById(result.id)) || false;
       if (!user) {
         return false;

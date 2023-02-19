@@ -21,13 +21,13 @@ export class Display {
   ports: string;
 
   @Prop(projectorId)
-  projectorId: Types.ObjectId;
+  projectorId?: Types.ObjectId;
 
   @Prop(monitorId)
-  monitorId: Types.ObjectId;
+  monitorId?: Types.ObjectId;
 
   @Prop(tvId)
-  tvId: Types.ObjectId;
+  tvId?: Types.ObjectId;
 }
 
 export const DisplaySchema = SchemaFactory.createForClass(Display);

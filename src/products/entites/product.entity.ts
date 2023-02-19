@@ -40,7 +40,7 @@ export class Product {
 
   // Product Weight in Kilos
   @Prop(unRequiredNumber)
-  weight: number;
+  weight?: number;
 
   @Prop(requiredNumber)
   quantity: number;
@@ -52,13 +52,13 @@ export class Product {
   location: Location;
 
   @Prop(computerId)
-  computerId: Types.ObjectId;
+  computerId?: Types.ObjectId;
 
   @Prop(driveId)
-  driveId: Types.ObjectId;
+  driveId?: Types.ObjectId;
 
   @Prop(displayId)
-  displayId: Types.ObjectId;
+  displayId?: Types.ObjectId;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

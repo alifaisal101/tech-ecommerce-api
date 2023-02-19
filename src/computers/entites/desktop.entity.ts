@@ -11,10 +11,10 @@ export class Desktop {
   powerSupply: PowerSupply;
 
   @Prop(compCase)
-  compCase: CompCase;
+  compCase?: CompCase;
 
   @Prop(cooler)
-  cooler: Cooler;
+  cooler?: Cooler;
 }
 
 export const DesktopSchema = SchemaFactory.createForClass(Desktop);
