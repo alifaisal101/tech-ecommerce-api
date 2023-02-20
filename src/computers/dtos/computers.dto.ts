@@ -1,5 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsObject, IsOptional, ValidateNested } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsObject,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 import { AllInOneDto } from './allInOne.dto';
 import { CpuDto } from './computer.nested-dtos/cpu.dto';
 import { GpuDto } from './computer.nested-dtos/gpu.dto';
@@ -21,6 +27,7 @@ export class ComputersDto {
 
   @ValidateNested()
   @IsArray()
+  @ArrayNotEmpty()
   @Type(() => StorageDto)
   storages: StorageDto[];
 

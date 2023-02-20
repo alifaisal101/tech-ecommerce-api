@@ -1,9 +1,15 @@
 import { Schema } from 'mongoose';
-import { unRequiredString } from '../../../util/options/mongoose-options';
+import {
+  requiredString,
+  unRequiredString,
+} from '../../../util/options/mongoose-options';
 
 export const locationProps = {
   required: true,
-  moreInfo: unRequiredString,
+  type: {
+    state: requiredString,
+    moreInfo: unRequiredString,
+  },
 };
 
 export const sellerId = {
