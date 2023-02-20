@@ -1,16 +1,18 @@
+import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
-  IsNotEmptyObject,
   IsNumber,
   IsOptional,
   IsString,
   Max,
   MaxLength,
   Min,
-  MinLength,
+  ValidateNested,
 } from 'class-validator';
-import { Location } from 'src/declarations/products';
-import { IsValidObject } from 'src/decorators/validation.decorator';
+import { ComputersDto } from 'src/computers/dtos/computers.dto';
+import { DisplaysDto } from 'src/displays/dtos/displays.dto';
+import { DrivesDto } from 'src/drives/dtos/drives.dto';
+import { LocationDto } from './location.dto';
 
 export class CreateDto {
   @MaxLength(50)
@@ -44,12 +46,22 @@ export class CreateDto {
   @IsNumber()
   quantity: number;
 
-  @IsValidObject(
-    { state: 'string', moreinfo_: 'string' },
-    {
-      message:
-        'Location must be an object with a state and optionally moreinfo',
-    },
-  )
-  location: Location;
+  @ValidateNested()
+  @Type(() => LocationDto)
+  location: LocationDto;
+
+  @ValidateNested()
+  @Type(() => ComputersDto)
+  @IsOptional()
+  computer?: ComputersDto;
+
+  @ValidateNested()
+  @Type(() => DrivesDto)
+  @IsOptional()
+  drive?: DrivesDto;
+
+  @ValidateNested()
+  @Type(() => DisplaysDto)
+  @IsOptional()
+  display?: DisplaysDto;
 }
