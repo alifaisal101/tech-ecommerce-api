@@ -1,1 +1,6 @@
-export class Desktop {}
+export class DesktopDto {
+    @ValidateNested()
+    @Type(() => Gpu)
+    @IsObject()
+    powerSupply: 
+}

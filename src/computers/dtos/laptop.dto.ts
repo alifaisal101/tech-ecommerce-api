@@ -1,1 +1,1 @@
-export class Laptop {}
+export class LaptopDto {}

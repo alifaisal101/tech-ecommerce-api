@@ -1,49 +1,49 @@
 import { Type } from 'class-transformer';
 import { IsArray, IsObject, IsOptional, ValidateNested } from 'class-validator';
-import { AllInOne } from './allInOne.dto';
-import { Cpu } from './computer.nested-dtos/cpu.dto';
-import { Gpu } from './computer.nested-dtos/gpu.dto';
-import { Ram } from './computer.nested-dtos/ram.dtos';
-import { Storage } from './computer.nested-dtos/storage.dto';
-import { Desktop } from './desktop.dto';
-import { Laptop } from './laptop.dto';
+import { AllInOneDto } from './allInOne.dto';
+import { CpuDto } from './computer.nested-dtos/cpu.dto';
+import { GpuDto } from './computer.nested-dtos/gpu.dto';
+import { RamDto } from './computer.nested-dtos/ram.dtos';
+import { StorageDto } from './computer.nested-dtos/storage.dto';
+import { DesktopDto } from './desktop.dto';
+import { LaptopDto } from './laptop.dto';
 
 export class ComputersDto {
   @ValidateNested()
-  @Type(() => Cpu)
+  @Type(() => CpuDto)
   @IsObject()
-  cpu: Cpu;
+  cpu: CpuDto;
 
   @ValidateNested()
-  @Type(() => Ram)
+  @Type(() => RamDto)
   @IsObject()
-  ram: Ram;
+  ram: RamDto;
 
   @ValidateNested()
   @IsArray()
-  @Type(() => Storage)
-  storages: Storage[];
+  @Type(() => StorageDto)
+  storages: StorageDto[];
 
   @ValidateNested()
-  @Type(() => Gpu)
+  @Type(() => GpuDto)
   @IsObject()
-  gpu: Gpu;
+  gpu: GpuDto;
 
   @ValidateNested()
-  @Type(() => AllInOne)
-  @IsObject()
-  @IsOptional()
-  allInOne: AllInOne;
-
-  @ValidateNested()
-  @Type(() => Desktop)
+  @Type(() => AllInOneDto)
   @IsObject()
   @IsOptional()
-  desktop: Desktop;
+  allInOne?: AllInOneDto;
 
   @ValidateNested()
-  @Type(() => Laptop)
+  @Type(() => DesktopDto)
   @IsObject()
   @IsOptional()
-  laptop: Laptop;
+  desktop?: DesktopDto;
+
+  @ValidateNested()
+  @Type(() => LaptopDto)
+  @IsObject()
+  @IsOptional()
+  laptop?: LaptopDto;
 }
