@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   Max,
@@ -47,21 +48,25 @@ export class CreateDto {
   quantity: number;
 
   @ValidateNested()
+  @IsObject()
   @Type(() => LocationDto)
   location: LocationDto;
 
   @ValidateNested()
   @Type(() => ComputersDto)
+  @IsObject()
   @IsOptional()
   computer?: ComputersDto;
 
   @ValidateNested()
   @Type(() => DrivesDto)
+  @IsObject()
   @IsOptional()
   drive?: DrivesDto;
 
   @ValidateNested()
   @Type(() => DisplaysDto)
+  @IsObject()
   @IsOptional()
   display?: DisplaysDto;
 }
