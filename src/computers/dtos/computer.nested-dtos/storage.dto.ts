@@ -15,5 +15,5 @@ export class StorageDto {
 
   @IsString()
   @IsNotEmpty()
-  type: string;
+  storageType: string;
 }

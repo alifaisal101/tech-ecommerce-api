@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Location } from '../../declarations/products';
 import {
-  requiredArrayOfString,
   requiredBoolean,
   requiredNumber,
   requiredString,
+  unRequiredArrayOfStrings,
   unRequiredNumber,
 } from '../../util/options/mongoose-options';
 import {
@@ -20,8 +20,8 @@ export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
 export class Product {
-  @Prop(requiredArrayOfString)
-  imgsList: string[];
+  @Prop(unRequiredArrayOfStrings)
+  imgsList?: string[];
 
   @Prop(requiredString)
   maker: string;

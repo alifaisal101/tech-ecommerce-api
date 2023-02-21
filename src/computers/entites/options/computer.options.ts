@@ -42,7 +42,7 @@ export const storages = {
         size: requiredString,
         model: requiredString,
         maker: requiredString,
-        type: requiredString,
+        storageType: requiredString,
       },
     },
   ],

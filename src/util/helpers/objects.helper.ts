@@ -19,3 +19,23 @@ export const objKeysValidator = (obj: object, keys: string[]): string[] => {
   }
   return includedKeys;
 };
+
+// receives an object and an array of keys, and return a tuble of the updated object, the deleted key and the property that key pointed at
+export const deleteObjProp = (
+  obj: object,
+  keys: string[],
+): [object, string | undefined, unknown] => {
+  let deletedKey: string | undefined;
+  let prop: unknown;
+
+  const objKeys = Object.keys(obj);
+  for (let i = 0; i < keys.length; i++) {
+    if (objKeys.includes(keys[i])) {
+      prop = obj[keys[i]];
+      deletedKey = keys[i];
+      delete obj[keys[i]];
+    }
+  }
+
+  return [obj, deletedKey, prop];
+};

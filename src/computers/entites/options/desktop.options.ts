@@ -27,6 +27,6 @@ export const cooler = {
   type: {
     maker: unRequiredString,
     name: unRequiredString,
-    type: unRequiredString,
+    coolerType: unRequiredString,
   },
 };

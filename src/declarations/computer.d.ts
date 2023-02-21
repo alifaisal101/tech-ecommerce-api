@@ -8,7 +8,7 @@ export interface Storage {
   size: string;
   model: string;
   maker: string;
-  type: string;
+  storageType: string;
 }
 
 export interface Cpu {
@@ -40,7 +40,7 @@ export interface CompCase {
 export interface Cooler {
   maker?: string;
   name?: string;
-  type?: string;
+  coolerType?: string;
 }
 
 export interface Battary {

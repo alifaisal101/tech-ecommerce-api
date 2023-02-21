@@ -14,5 +14,5 @@ export class CoolerDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  type?: string;
+  coolerType?: string;
 }
