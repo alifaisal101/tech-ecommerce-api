@@ -24,5 +24,6 @@ import { AllInOne, AllInOneSchema } from './entites/allInOne.entity';
       { name: AllInOne.name, schema: AllInOneSchema },
     ]),
   ],
+  exports: [ComputersService],
 })
 export class ComputersModule {}

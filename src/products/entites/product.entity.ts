@@ -32,7 +32,7 @@ export class Product {
   @Prop(requiredString)
   desc: string;
 
-  @Prop(requiredBoolean)
+  @Prop({ ...requiredBoolean, default: false })
   approvalState: boolean;
 
   @Prop(requiredString)

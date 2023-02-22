@@ -1,5 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { isNotEmptyObject } from 'class-validator';
 import { Model, Types } from 'mongoose';
 import { ComputersDto } from 'src/computers/dtos/computers.dto';
 import { ComputersService } from 'src/computers/services/computers.service';
@@ -43,48 +48,46 @@ export class ProductsService {
     const categoryId = {};
 
     try {
-      switch (categoryName) {
-        case 'computer':
-          const computer = await this.computersSrv.create(
-            category as ComputersDto,
-          );
+      if (isNotEmptyObject(category)) {
+        switch (categoryName) {
+          case 'computer':
+            const computer = await this.computersSrv.create(
+              category as ComputersDto,
+            );
 
-          // eslint-disable-next-line
-          //@ts-ignore
-          categoryId[`${category}Id`] = computer._doc._id;
-          break;
-        case 'drive':
-          const display = await this.displaysSrv.create(
-            category as DisplaysDto,
-          );
+            // eslint-disable-next-line
+            //@ts-ignore
+            categoryId[`${categoryName}Id`] = computer?._doc._id;
+            break;
+          case 'display':
+            const display = await this.displaysSrv.create(
+              category as DisplaysDto,
+            );
 
-          // eslint-disable-next-line
-          //@ts-ignore
-          categoryId[`${category}Id`] = display._doc._id;
-          break;
-        case 'display':
-          const drive = await this.drivesSrv.create(category as DrivesDto);
+            // eslint-disable-next-line
+            //@ts-ignore
+            categoryId[`${categoryName}Id`] = display?._doc._id;
+            break;
+          case 'drive':
+            const drive = await this.drivesSrv.create(category as DrivesDto);
 
-          // eslint-disable-next-line
-          //@ts-ignore
-          categoryId[`${category}Id`] = drive._doc._id;
-          break;
+            // eslint-disable-next-line
+            //@ts-ignore
+            categoryId[`${categoryName}Id`] = drive?._doc._id;
+            break;
+        }
       }
+      const result = await this.productModel.create({
+        ...leanProduct,
+        sellerId: userId,
+        ...categoryId,
+      });
 
-      console.log(
-        await this.productModel.create({ ...leanProduct, ...categoryId }),
-      );
+      // eslint-disable-next-line
+      //@ts-ignore
+      return result._doc;
     } catch (err) {
-      console.log(err);
+      return new InternalServerErrorException();
     }
-    // strip out 'computer', 'drive', 'display'
-    // add 'computer', 'drive', 'display' to the db and get back the id
-    const gategory = {};
-    // create the product object and store in the db
-    // const productobj: Product = {
-    //   ...product,
-    //   sellerId: userId,
-    //   ...gategory,
-    // };
   }
 }
