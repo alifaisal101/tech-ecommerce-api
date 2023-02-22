@@ -10,5 +10,5 @@ export class ProductApproveDto {
 
   @IsBoolean()
   @IsOptional()
-  delete?: boolean;
+  remove?: boolean;
 }
