@@ -6,6 +6,7 @@ import {
   requiredNumber,
   requiredString,
   unRequiredArrayOfStrings,
+  unRequiredBoolean,
   unRequiredNumber,
 } from '../../util/options/mongoose-options';
 import {
@@ -34,6 +35,9 @@ export class Product {
 
   @Prop({ ...requiredBoolean, default: false })
   approvalState: boolean;
+
+  @Prop(unRequiredBoolean)
+  disapproved?: boolean;
 
   @Prop(requiredString)
   model: string;

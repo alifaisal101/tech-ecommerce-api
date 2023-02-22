@@ -10,7 +10,7 @@ import { UsersService } from '../services/users.service';
 // The expressions for each decorator are evaluated top-to-bottom.
 // The results are then called as functions from bottom-to-top.
 
-@IsAuthorized('admin') // 2st
+@IsAuthorized(['admin']) // 2st
 @IsAuthenticated() // 1st
 @Serialize(ExcludePasswordDto)
 @Controller('users')
