@@ -43,3 +43,6 @@ lerna-debug.log*
 
 #sandbox, etc
 html-test
+
+#data
+data/products-images/*

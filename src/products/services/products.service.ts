@@ -2,16 +2,21 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isNotEmptyObject } from 'class-validator';
+import { randomBytes } from 'crypto';
+import { writeFile } from 'fs/promises';
 import { Model, Types } from 'mongoose';
+import { dirname, join } from 'path';
 import { ComputersDto } from 'src/computers/dtos/computers.dto';
 import { ComputersService } from 'src/computers/services/computers.service';
 import { DisplaysDto } from 'src/displays/dtos/displays.dto';
 import { DisplaysService } from 'src/displays/services/displays.service';
 import { DrivesDto } from 'src/drives/dtos/drives.dto';
 import { DrivesService } from 'src/drives/services/drives.service';
+import { UserDocument } from 'src/users/entities/users.entity';
 import {
   deleteObjProp,
   objKeysValidator,
@@ -19,6 +24,7 @@ import {
 import { CreateDto } from '../dtos/req/create.dto';
 import { Product, ProductDocument } from '../entites/product.entity';
 
+const imagesPath = join(__dirname, '../../../../data', 'products-images');
 type productCategory = DisplaysDto | DrivesDto | ComputersDto | undefined;
 
 @Injectable()
@@ -89,5 +95,45 @@ export class ProductsService {
     } catch (err) {
       return new InternalServerErrorException();
     }
+  }
+
+  findById(id: Types.ObjectId) {
+    return this.productModel.findById(id);
+  }
+
+  async uploadImages(
+    productId: Types.ObjectId,
+    images: Array<Express.Multer.File>,
+    user: Partial<UserDocument>,
+  ) {
+    const product = (await this.findById(productId)) || false;
+    if (!product) {
+      throw new NotFoundException('No product with that id was found');
+    }
+
+    const userOwnsProduct = product.sellerId.equals(user._id) || false;
+    if (!userOwnsProduct) {
+      throw new BadRequestException();
+    }
+
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+
+      const imageFileExt = image.mimetype.split('/')[1];
+      const newImageFileName = `${randomBytes(12).toString(
+        'hex',
+      )}.${imageFileExt}`;
+
+      try {
+        await writeFile(join(imagesPath, newImageFileName), image.buffer);
+        product.imgsList.push(newImageFileName);
+      } catch (err) {
+        throw new InternalServerErrorException();
+      }
+    }
+
+    // eslint-disable-next-line
+    //@ts-ignore
+    return product.save();
   }
 }

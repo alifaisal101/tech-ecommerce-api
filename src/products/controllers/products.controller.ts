@@ -13,6 +13,7 @@ import { IsAuthenticated } from 'src/guards/authentication.guard';
 import { UserDocument } from 'src/users/entities/users.entity';
 import { CreateDto } from '../dtos/req/create.dto';
 import { ProductsService } from '../services/products.service';
+import { UploadImagesDto } from '../dtos/req/upload-images.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -37,7 +38,8 @@ export class ProductsController {
       }),
     )
     images: Array<Express.Multer.File>,
+    @Body() body: UploadImagesDto,
   ) {
-    console.log(images);
+    return await this.productsSrv.uploadImages(body.productId, images, user);
   }
 }
