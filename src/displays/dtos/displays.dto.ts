@@ -32,10 +32,10 @@ export class DisplaysDto {
   @ValidateNested()
   @Type(() => MonitorDto)
   @IsOptional()
-  Monitor?: MonitorDto;
+  monitor?: MonitorDto;
 
   @ValidateNested()
   @Type(() => TvDto)
   @IsOptional()
-  Tv?: TvDto;
+  tv?: TvDto;
 }
