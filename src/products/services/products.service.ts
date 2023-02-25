@@ -136,4 +136,12 @@ export class ProductsService {
     //@ts-ignore
     return product.save();
   }
+
+  findOne() {
+    return this.productModel.findOne();
+  }
+
+  find() {
+    return this.productModel.find();
+  }
 }
