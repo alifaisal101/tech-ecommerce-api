@@ -103,6 +103,6 @@ export class AuthService {
 
     // eslint-disable-next-line
     //@ts-ignore
-    return { ...user._doc, token };
+    return { ...user._doc, token: { value: token, expiresIn: jwtExpiration } };
   }
 }
