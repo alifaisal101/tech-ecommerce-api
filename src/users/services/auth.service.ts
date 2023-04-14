@@ -17,10 +17,7 @@ import { UsersService } from './users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly usersSrv: UsersService,
-    private readonly mailSrv: MailService,
-  ) {}
+  constructor(private readonly usersSrv: UsersService) {}
 
   async register(userDto: RegisterDto) {
     const emailExists = (await this.usersSrv.findOne(userDto.email)) || false;
@@ -40,16 +37,12 @@ export class AuthService {
     const user: User = {
       ...userDto,
       password: hashedPw,
-      confirmed: false,
+      confirmed: true, // This would be set to false, if we'd be using the confirmation service
       confirmHash: randomBytes(20).toString('hex'),
     };
     try {
       const result = await this.usersSrv.create(user);
-      await this.mailSrv.confirmation(
-        result.email,
-        result._id,
-        result.confirmHash,
-      );
+      // Here is where the confirmation mail would be sent
       return result;
     } catch (err) {
       console.log(err);

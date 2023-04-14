@@ -5,12 +5,10 @@ import { UsersService } from './services/users.service';
 import { AuthService } from './services/auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './entities/users.entity';
-import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
     UsersModule,
-    MailModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [UsersController, AuthController],

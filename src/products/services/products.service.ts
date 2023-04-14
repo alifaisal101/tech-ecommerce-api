@@ -142,6 +142,19 @@ export class ProductsService {
   }
 
   find() {
-    return this.productModel.find();
+    // return this.productModel.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: 'user',
+    //       localField: '_id',
+    //       foreignField: 'sellerId',
+    //       as: 'seller',
+    //     },
+    //   },
+    // ]);
+    // .exec(function (err, computers) {
+    //   console.log(computers);
+    // });
+    // return this.productModel.find().populate('users', 'user', { str });
   }
 }

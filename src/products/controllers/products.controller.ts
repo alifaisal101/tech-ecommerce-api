@@ -42,4 +42,9 @@ export class ProductsController {
   ) {
     return await this.productsSrv.uploadImages(body.productId, images, user);
   }
+
+  @Post('/find')
+  async find(@Body() body: object) {
+    return await this.productsSrv.find();
+  }
 }
