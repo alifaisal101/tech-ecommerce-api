@@ -1,3 +1,4 @@
 {
-  "users_per_page": 5
+  "users_per_page": 5,
+  "products_per_page": 5
 }

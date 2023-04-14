@@ -14,10 +14,15 @@ import { UserDocument } from 'src/users/entities/users.entity';
 import { CreateDto } from '../dtos/req/create.dto';
 import { ProductsService } from '../services/products.service';
 import { UploadImagesDto } from '../dtos/req/upload-images.dto';
+import { FindDto } from '../dtos/req/find.dto';
+import { ProductsQueryBuilderService } from '../services/products-query-builder.service';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsSrv: ProductsService) {}
+  constructor(
+    private readonly productsSrv: ProductsService,
+    private readonly productsQueryBuilder: ProductsQueryBuilderService,
+  ) {}
   @IsAuthenticated()
   @Post('/add')
   async create(
@@ -44,7 +49,9 @@ export class ProductsController {
   }
 
   @Post('/find')
-  async find(@Body() body: object) {
-    return await this.productsSrv.find();
+  async find(@Body() body: FindDto) {
+    return await this.productsSrv.find(
+      this.productsQueryBuilder.buildFind(body),
+    );
   }
 }

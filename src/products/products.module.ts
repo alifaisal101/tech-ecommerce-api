@@ -9,10 +9,15 @@ import { Product, ProductSchema } from './entites/product.entity';
 import { ComputersModule } from 'src/computers/computers.module';
 import { DrivesModule } from 'src/drives/drives.module';
 import { DisplaysModule } from 'src/displays/displays.module';
+import { ProductsQueryBuilderService } from './services/products-query-builder.service';
 
 @Module({
   controllers: [ProductsController, ProductsMangController],
-  providers: [ProductsService, ProductsMangService],
+  providers: [
+    ProductsService,
+    ProductsMangService,
+    ProductsQueryBuilderService,
+  ],
   imports: [
     UsersModule,
     ProductsModule,

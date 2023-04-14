@@ -15,5 +15,6 @@ export const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 // Config
 // pages
 export { users_per_page } from '../config/pages.json';
+export { products_per_page } from '../config/pages.json';
 // server
 export { url } from '../config/server.json';

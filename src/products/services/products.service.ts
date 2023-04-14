@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { isNotEmptyObject } from 'class-validator';
 import { randomBytes } from 'crypto';
 import { writeFile } from 'fs/promises';
-import { Model, Types } from 'mongoose';
+import { Model, PipelineStage, Types } from 'mongoose';
 import { dirname, join } from 'path';
 import { ComputersDto } from 'src/computers/dtos/computers.dto';
 import { ComputersService } from 'src/computers/services/computers.service';
@@ -140,21 +140,7 @@ export class ProductsService {
   findOne() {
     return this.productModel.findOne();
   }
-
-  find() {
-    // return this.productModel.aggregate([
-    //   {
-    //     $lookup: {
-    //       from: 'user',
-    //       localField: '_id',
-    //       foreignField: 'sellerId',
-    //       as: 'seller',
-    //     },
-    //   },
-    // ]);
-    // .exec(function (err, computers) {
-    //   console.log(computers);
-    // });
-    // return this.productModel.find().populate('users', 'user', { str });
+  find(pipelineStages: PipelineStage[]) {
+    return this.productModel.aggregate(pipelineStages);
   }
 }
