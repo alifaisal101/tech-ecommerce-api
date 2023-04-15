@@ -15,6 +15,7 @@
     "init:start": "eval $(cat .env) nodemon ./dist/init",
     "start": "nest start",
     "start:dev": "eval $(cat .env) nest start --watch",
+    "start:dev:win": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
