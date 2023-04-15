@@ -5,11 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { isNotEmptyObject } from 'class-validator';
+import { isMongoId, isNotEmptyObject } from 'class-validator';
 import { randomBytes } from 'crypto';
 import { writeFile } from 'fs/promises';
-import { Model, PipelineStage, Types } from 'mongoose';
-import { dirname, join } from 'path';
+import mongoose, { Model, PipelineStage, Types } from 'mongoose';
+import { join } from 'path';
 import { ComputersDto } from 'src/computers/dtos/computers.dto';
 import { ComputersService } from 'src/computers/services/computers.service';
 import { DisplaysDto } from 'src/displays/dtos/displays.dto';
@@ -137,8 +137,100 @@ export class ProductsService {
     return product.save();
   }
 
-  findOne() {
-    return this.productModel.findOne();
+  findOne(id_str: string) {
+    if (!isMongoId(id_str)) {
+      throw new BadRequestException();
+    }
+    const id = new mongoose.Types.ObjectId(id_str);
+    return this.productModel.aggregate([
+      { $match: { _id: { $eq: id } } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'sellerId',
+          foreignField: '_id',
+          as: 'seller',
+        },
+      },
+      {
+        $project: {
+          sellerId: 0,
+          seller: { email: 0, password: 0, privileges: 0 },
+        },
+      },
+      {
+        $lookup: {
+          from: 'drives',
+          localField: 'driveId',
+          foreignField: '_id',
+          as: 'drive',
+        },
+      },
+      {
+        $lookup: {
+          from: 'computers',
+          localField: 'computerId',
+          foreignField: '_id',
+          as: 'computer',
+        },
+      },
+      {
+        $lookup: {
+          from: 'desktops',
+          localField: 'computer.desktopId',
+          foreignField: '_id',
+          as: 'desktop',
+        },
+      },
+      {
+        $lookup: {
+          from: 'laptops',
+          localField: 'computer.laptopId',
+          foreignField: '_id',
+          as: 'laptop',
+        },
+      },
+      {
+        $lookup: {
+          from: 'allinones',
+          localField: 'computer.allInOneId',
+          foreignField: '_id',
+          as: 'allInOne',
+        },
+      },
+      {
+        $lookup: {
+          from: 'displays',
+          localField: 'displayId',
+          foreignField: '_id',
+          as: 'display',
+        },
+      },
+      {
+        $lookup: {
+          from: 'monitors',
+          localField: 'display.monitorId',
+          foreignField: '_id',
+          as: 'monitor',
+        },
+      },
+      {
+        $lookup: {
+          from: 'projectors',
+          localField: 'display.projectorId',
+          foreignField: '_id',
+          as: 'projector',
+        },
+      },
+      {
+        $lookup: {
+          from: 'tvs',
+          localField: 'display.tvId',
+          foreignField: '_id',
+          as: 'tv',
+        },
+      },
+    ]);
   }
   find(pipelineStages: PipelineStage[]) {
     return this.productModel.aggregate(pipelineStages);

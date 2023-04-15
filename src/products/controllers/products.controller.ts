@@ -1,6 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
+  NotFoundException,
+  Param,
   ParseFilePipe,
   Post,
   UploadedFiles,
@@ -53,5 +56,14 @@ export class ProductsController {
     return await this.productsSrv.find(
       this.productsQueryBuilder.buildFind(body),
     );
+  }
+
+  @Get('/findOne/:id')
+  async findOne(@Param('id') id: string) {
+    const product = (await this.productsSrv.findOne(id))[0];
+    if (!product) {
+      throw new NotFoundException();
+    }
+    return product;
   }
 }
